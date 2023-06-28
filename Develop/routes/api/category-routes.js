@@ -6,7 +6,9 @@ const { Category, Product } = require('../../models');
 router.get('/', async (req, res) => {
   try {
     const categories = await Category.findAll({
-      include: [ Product ]
+      include: [{
+        model: Product
+      }]
     });
     res.status(200).json(categories);
   } catch (error) {
@@ -17,11 +19,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const  loneCategory = await Category.findByPk(req.params.id, {
-      include: [ Product ]
+      include: [{
+        model: Product
+      }]
     });
     res.status(200).json(loneCategory)
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(yoyoma(err));
   }
 });
 
@@ -53,7 +57,7 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-    res.status(200).json(deleteCategory);
+    res.status(200).json("category deleted", deleteCategory);
   } catch (err) { res.status(500).json(err); }
 });
 
